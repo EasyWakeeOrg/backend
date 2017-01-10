@@ -26,20 +26,20 @@ public class ServiceController {
 	@RequestMapping(value="/signUp", method = RequestMethod.POST)
 	@RestResource(path="/signUp")
 
-	public String signUp(@RequestParam(value="em",defaultValue="M",required=true) String em,
-				@RequestParam(value="fn",defaultValue="M",required=true) String fn,
-				@RequestParam(value="ln",defaultValue="M",required=true) String ln,
-				@RequestParam(value="time",defaultValue="M",required=true) String time,
-				@RequestParam(value="nb",defaultValue="M",required=true) String nb, //User's address
-				@RequestParam(value="str",defaultValue="M",required=true) String street,
-				@RequestParam(value="pc",defaultValue="M",required=true) String postalCode,
-				@RequestParam(value="city",defaultValue="M",required=true) String city,
-				@RequestParam(value="tr",defaultValue="",required=true) String transport,
-				@RequestParam(value="nbs",defaultValue="M",required=true) String nbS, //fields for school address
-				@RequestParam(value="strs",defaultValue="M",required=true) String streetS,
-				@RequestParam(value="pcs",defaultValue="M",required=true) String postalCodeS,
-				@RequestParam(value="citys",defaultValue="M",required=true) String cityS,
-				@RequestParam(value="device",defaultValue="M",required=true) String device){
+	public String signUp(@RequestParam(value="em",defaultValue="M") String em,
+				@RequestParam(value="fn",defaultValue="M") String fn,
+				@RequestParam(value="ln",defaultValue="M") String ln,
+				@RequestParam(value="time",defaultValue="M") String time,
+				@RequestParam(value="nb",defaultValue="M") String nb, //User's address
+				@RequestParam(value="str",defaultValue="M") String street,
+				@RequestParam(value="pc",defaultValue="M") String postalCode,
+				@RequestParam(value="city",defaultValue="M") String city,
+				@RequestParam(value="tr",defaultValue="") String transport,
+				@RequestParam(value="nbs",defaultValue="M") String nbS, //fields for school address
+				@RequestParam(value="strs",defaultValue="M") String streetS,
+				@RequestParam(value="pcs",defaultValue="M") String postalCodeS,
+				@RequestParam(value="citys",defaultValue="M") String cityS,
+				@RequestParam(value="device",defaultValue="M") String device){
 		try{
 			if(repo.findByEmail(em)==null){//insert the new user in the db
 				//Parse the address of the user
@@ -88,27 +88,52 @@ public class ServiceController {
 
 	@RequestMapping(value="/update", method = RequestMethod.PUT)
 	@RestResource(path="/update")
-	public String updateUser(@RequestParam(value="fn",defaultValue="") String new_fn,
-				@RequestParam(value="ln",defaultValue="") String new_ln,
-				@RequestParam(value="em",required =true) String em,
-				@RequestParam(value="bio",defaultValue="") String new_bio){
+	public String updateUser(@RequestParam(value="em",defaultValue="M") String em,
+			@RequestParam(value="fn",defaultValue="M") String fn,
+			@RequestParam(value="ln",defaultValue="M") String ln,
+			@RequestParam(value="time",defaultValue="M") String time,
+			@RequestParam(value="nb",defaultValue="M") String nb, //User's address
+			@RequestParam(value="str",defaultValue="M") String street,
+			@RequestParam(value="pc",defaultValue="M") String postalCode,
+			@RequestParam(value="city",defaultValue="M") String city,
+			@RequestParam(value="tr",defaultValue="") String transport,
+			@RequestParam(value="nbs",defaultValue="M") String nbS, //fields for school address
+			@RequestParam(value="strs",defaultValue="M") String streetS,
+			@RequestParam(value="pcs",defaultValue="M") String postalCodeS,
+			@RequestParam(value="citys",defaultValue="M") String cityS,
+			@RequestParam(value="device",defaultValue="M") String device){
 		try{
-			if(urepo.findByEmail(em)==null){//check if the user can be updated
+			if(repo.findByEmail(em)==null){//check if the user can be updated
 				return "user unexistant";
 			}
 			else{
-				User update = urepo.findByEmail(em);
-				if(new_fn.trim().length() > 0){
-					update.setFirstName(new_fn);
+				User update = repo.findByEmail(em);
+				if(fn.trim().length() > 0){
+					update.setFirstName(fn);
 				}
-				if(new_ln.trim().length() > 0){
-					update.setLastName(new_ln);
+				if(ln.trim().length() > 0){
+					update.setLastName(ln);
 				}
-				if(new_bio.trim().length() > 0){
-					update.setBio(new_bio);
+				if(time.trim().length() > 0){
+					update.setTime(Integer.parseInt(time));
 				}
-				urepo.save(update);
-				return "groups";
+				if(nb.trim().length() > 0 && street.trim().length() > 0 
+						&& postalCode.trim().length() > 0 && city.trim().length() > 0){
+					update.setAddress(new Address(Integer.parseInt(nb), street,
+							Integer.parseInt(postalCode), city));
+				}
+				if(transport.trim().length() > 0){
+					ArrayList<String> t = new ArrayList<String>();
+					t.add(transport);
+					update.setTransport(t);
+				}
+				if(nbS.trim().length() > 0 && streetS.trim().length() > 0 
+						&& postalCodeS.trim().length() > 0 && cityS.trim().length() > 0){
+					update.setSchoolPlace(new Address(Integer.parseInt(nbS), streetS,
+							Integer.parseInt(postalCodeS), cityS));
+				}
+				repo.save(update);
+				return "redirect:/home";
 			}
 		}catch(Exception e){
 			return "repository not found";
@@ -128,7 +153,7 @@ public class ServiceController {
 				return "userDeleted";
 			}
 		}catch(Exception e){
-			//return HTTP erro code 50x
+			//return HTTP error code 50x
 			return "repository not found";
 		}
 	}
