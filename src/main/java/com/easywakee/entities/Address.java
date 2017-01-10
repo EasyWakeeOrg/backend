@@ -45,5 +45,9 @@ public class Address {
 		this.city = city;
 	}
 	
-	
+    @Override
+    public String toString() {
+        return "Address[" + nb + " " + street + ", " + postalCode + " " + 
+        		city +"]";
+    }
 }
