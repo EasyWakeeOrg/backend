@@ -16,30 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 import com.easywakee.entities.*;
 
 
-@Controller
+@RestController
 public class ServiceController {
 
 	@Autowired
 	private UserRepository repo;
 	
 	//User handling
-	@RequestMapping(value="/signUp", method = RequestMethod.GET)
+	@RequestMapping(value="/signUp", method = RequestMethod.POST)
 	@RestResource(path="/signUp")
 
-	public String signUp(@RequestParam(value="em",defaultValue="M") String em,
-				@RequestParam(value="fn",defaultValue="M") String fn,
-				@RequestParam(value="ln",defaultValue="M") String ln,
-				@RequestParam(value="time",defaultValue="M") String time,
-				@RequestParam(value="nb",defaultValue="M") String nb, //User's address
-				@RequestParam(value="str",defaultValue="M") String street,
-				@RequestParam(value="pc",defaultValue="M") String postalCode,
-				@RequestParam(value="city",defaultValue="M") String city,
-				@RequestParam(value="tr",defaultValue="") String transport,
-				@RequestParam(value="nbs",defaultValue="M") String nbS, //fields for school address
-				@RequestParam(value="strs",defaultValue="M") String streetS,
-				@RequestParam(value="pcs",defaultValue="M") String postalCodeS,
-				@RequestParam(value="citys",defaultValue="M") String cityS,
-				@RequestParam(value="device",defaultValue="M") String device){
+	public String signUp(@RequestParam(value="em",defaultValue="M",required=true) String em,
+				@RequestParam(value="fn",defaultValue="M",required=true) String fn,
+				@RequestParam(value="ln",defaultValue="M",required=true) String ln,
+				@RequestParam(value="time",defaultValue="M",required=true) String time,
+				@RequestParam(value="nb",defaultValue="M",required=true) String nb, //User's address
+				@RequestParam(value="str",defaultValue="M",required=true) String street,
+				@RequestParam(value="pc",defaultValue="M",required=true) String postalCode,
+				@RequestParam(value="city",defaultValue="M",required=true) String city,
+				@RequestParam(value="tr",defaultValue="",required=true) String transport,
+				@RequestParam(value="nbs",defaultValue="M",required=true) String nbS, //fields for school address
+				@RequestParam(value="strs",defaultValue="M",required=true) String streetS,
+				@RequestParam(value="pcs",defaultValue="M",required=true) String postalCodeS,
+				@RequestParam(value="citys",defaultValue="M",required=true) String cityS,
+				@RequestParam(value="device",defaultValue="M",required=true) String device){
 		try{
 			if(repo.findByEmail(em)==null){//insert the new user in the db
 				//Parse the address of the user
@@ -47,8 +47,8 @@ public class ServiceController {
 				String pcConcat = "";
 
 				if(pcString.length > 1){
-					for(int i = 0; i<pcString.length-1;i++){
-						pcConcat.concat(pcString[i+1]);
+					for(int i = 0; i<pcString.length;i++){
+						pcConcat.concat(pcString[i]);
 					}
 				}
 				//Ajouter gestion de si le code postal n'est pas present
@@ -71,7 +71,7 @@ public class ServiceController {
 				Address add = new Address(Integer.parseInt(nb),street,pc,city);
 				Address schoolAdd = new Address(Integer.parseInt(nbS),streetS,pcS,cityS);
 				
-				//Creer la liste des transports quand on saura comment elle est passÃ©e
+				//Creer la liste des transports quand on saura comment elle est passée
 				ArrayList<String> transports = new ArrayList<String>();
 				repo.save(new User(em,fn,ln,Integer.parseInt(time),add,
 						transports,schoolAdd,device));
@@ -86,7 +86,7 @@ public class ServiceController {
 		}
 	}
 
-	@RequestMapping(value="/update")
+	@RequestMapping(value="/update", method = RequestMethod.PUT)
 	@RestResource(path="/update")
 	public String updateUser(@RequestParam(value="fn",defaultValue="") String new_fn,
 				@RequestParam(value="ln",defaultValue="") String new_ln,
