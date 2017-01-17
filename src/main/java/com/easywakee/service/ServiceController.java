@@ -176,7 +176,7 @@ public class ServiceController {
 	public void setAlarmTime(User u){
 		//Computes the alarm time
 		Date alarmTime = firstEvent(u);
-		alarmTime.substract(computeRoute(u) + u.getTime());
+		//alarmTime.substract(computeRoute(u) + u.getTime());
 		
 		//Write code to send the info to the device
 		//Other possibility: write the info somewhere and the device
