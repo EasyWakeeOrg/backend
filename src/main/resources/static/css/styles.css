@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body .main{
+  font-size: 18px;
+  color: black;
+  font-family: 'Calibri', sans-serif;
+  padding-left: 10px;
+}
+
+body{
+  background-color: #ADD8E6;
+}
+
+.title{
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: 'Helvetica', sans-serif;
+}
+
+#openweathermap-widget{
+  float: right;
+  position: relative;
+  right: 10%;
+  bottom: 300px;
+}
+
+/** Menu **/
+#header-nav {
+  border-radius: 0px;
+  border: 0px;
+  margin: 0px;
+  background-image: linear-gradient(120deg, #483D8B, #B22222);
+  border-color: white;
+  padding-bottom: 8px;
+}
+
+#logo-img {
+  background: url('../images/logo.png') no-repeat;
+  width: 110px;
+  height: 110px;
+  margin: 10px 25px 10px 0;
+}
+
+.navbar-brand {
+  padding-top: 25px;
+}
+
+.navbar-brand h1 { /* EasyWakee Title */
+  font-family: 'Helvetica';
+  color: #E0FFFF;
+  font-size: 1.6em;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #222;
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: .80;
+}
+.navbar-brand a:hover, .navbar-brand a:focus {
+  text-decoration: none;
+}
+
+#nav-list {
+  margin-top: 10px;
+}
+#nav-list a {
+  color: #E0FFFF;
+  text-align: center;
+}
+#nav-list a:hover {
+  background: #778899;
+}
+#nav-list a span {
+  font-size: 1.8em;
+}
+
+.navbar-header button.navbar-toggle, .navbar-header .icon-bar {
+  border: 1px solid #E0FFFF;
+}
+.navbar-header button.navbar-toggle {
+  clear:both;
+  margin-top: -30px;
+}
+
+/********** Large devices only **********/
+@media (min-width: 1200px) {
+  .navbar-brand{
+    font-size: 1.3em;
+  }
+}
+
+/********** Medium devices only **********/
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* Header */
+  #logo-img {
+    background: url('../images/logo-medium.png') no-repeat;
+    width: 80px;
+    height: 80px;
+    margin: 5px 25px 5px 0;
+  }
+  /* End Header */
+}
+
+/********** Small devices only **********/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/********** Extra small devices only **********/
+@media (max-width: 767px) {
+  #openweathermap-widget{
+    display: none;
+
+  }
+  .navbar-brand {
+    padding-top: 10px;
+    height: 80px;
+  }
+  .navbar-brand h1 {
+    padding-top: 10px;
+    font-size: 5vw; /* 1vw = 1% of viewport width */
+  }
+
+  #collapsable-nav a { /* Collapsed nav menu text */
+    font-size: 1.2em;
+  }
+  #collapsable-nav a span { /* Collapsed nav menu glyph */
+    font-size: 1em;
+    margin-right: 5px;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left:42.5%;
+  font-size: 0.7em;
+  font-style: italic;
+  color: black;
+  font-family: 'Calibri', sans-serif;
+}

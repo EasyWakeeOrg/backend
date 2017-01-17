@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.easywakee.entities.*;
 
 
-@RestController
+@Controller
 public class ServiceController {
 
 	@Autowired
@@ -28,8 +28,8 @@ public class ServiceController {
 	@RestResource(path="/signUp")
 
 	public String signUp(@RequestParam(value="em",defaultValue="M") String em,
-				@RequestParam(value="fn",defaultValue="M") String fn,
-				@RequestParam(value="ln",defaultValue="M") String ln,
+				@RequestParam(value="ps",defaultValue="M") String pseudo,
+				@RequestParam(value="pa",defaultValue="M") String password,
 				@RequestParam(value="time",defaultValue="M") String time,
 				@RequestParam(value="nb",defaultValue="M") String nb, //User's address
 				@RequestParam(value="str",defaultValue="M") String street,
@@ -72,9 +72,9 @@ public class ServiceController {
 				Address add = new Address(Integer.parseInt(nb),street,pc,city);
 				Address schoolAdd = new Address(Integer.parseInt(nbS),streetS,pcS,cityS);
 				
-				//Creer la liste des transports quand on saura comment elle est passée
+				//Creer la liste des transports quand on saura comment elle est passï¿½e
 				ArrayList<String> transports = new ArrayList<String>();
-				repo.save(new User(em,fn,ln,Integer.parseInt(time),add,
+				repo.save(new User(em,pseudo,password,Integer.parseInt(time),add,
 						transports,schoolAdd,device));
 				return "user created";
 			}
@@ -89,9 +89,9 @@ public class ServiceController {
 
 	@RequestMapping(value="/update", method = RequestMethod.PUT)
 	@RestResource(path="/update")
-	public String updateUser(@RequestParam(value="em",defaultValue="M") String em,
-			@RequestParam(value="fn",defaultValue="M") String fn,
-			@RequestParam(value="ln",defaultValue="M") String ln,
+	public String updateUser(@RequestParam(value="ps",defaultValue="M") String pseudo,
+			@RequestParam(value="pa",defaultValue="M") String password,
+			@RequestParam(value="em",defaultValue="M") String em,
 			@RequestParam(value="time",defaultValue="M") String time,
 			@RequestParam(value="nb",defaultValue="M") String nb, //User's address
 			@RequestParam(value="str",defaultValue="M") String street,
@@ -109,11 +109,11 @@ public class ServiceController {
 			}
 			else{
 				User update = repo.findByEmail(em);
-				if(fn.trim().length() > 0){
-					update.setFirstName(fn);
+				if(pseudo.trim().length() > 0){
+					update.setPseudo(pseudo);
 				}
-				if(ln.trim().length() > 0){
-					update.setLastName(ln);
+				if(password.trim().length() > 0){
+					update.setPassword(password);
 				}
 				if(time.trim().length() > 0){
 					update.setTime(Integer.parseInt(time));
@@ -188,6 +188,6 @@ public class ServiceController {
 	@RequestMapping(value="/home")
 	@RestResource(path="/home")
 	public String toHome(){
-		return"home";
+		return"homepage";
 	}
 }

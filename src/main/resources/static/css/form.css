@@ -1,0 +1,89 @@
+fieldset {
+width: 33%;
+  border-width: 2px;
+  border-style: groove;
+  padding-bottom: 10px;
+}
+
+legend {
+  font-size: 30px
+}
+
+input{
+  resize: none;
+  border-radius: 5px;
+  border-style: groove;
+  border-color: #eee;
+  border-width: 2px;
+  width: 60%;
+}
+
+label {
+  width: 30%;
+  text-align: right;
+  padding: 2px;
+}
+
+label#CP{
+  width: 30.8%;
+}
+
+input#nb, input#nbs{
+  width: 7.5%;
+}
+
+input#pc, input#pcs{
+  width: 12%;
+}
+
+input#str, input#strs{
+  width: 51%;
+}
+
+input#city, input#citys{
+  width: 46.5%;
+}
+
+.bouton{
+  width:auto;
+  margin-left: 45%
+}
+
+.background{
+  background-color: #ADD8E6;
+  height: device-height
+}
+
+footer{
+  font-size: 0.9em;
+}
+
+/********** Medium devices only **********/
+@media (min-width: 992px) and (max-width: 1199px) {
+  fieldset{
+    width:50%
+  }
+  .bouton{
+    margin-left: 49%
+  }
+}
+
+/********** Small devices only **********/
+@media (min-width: 768px) and (max-width: 991px) {
+  fieldset{
+    width:75%
+  }
+  .bouton{
+    margin-left: 50.5%
+  }
+}
+
+/********** Extra small devices only **********/
+@media (max-width: 767px) {
+  fieldset{
+    width:100%
+  }
+  .bouton{
+    margin-left: 50%
+  }
+}

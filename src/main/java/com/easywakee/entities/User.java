@@ -8,24 +8,40 @@ public class User {
 
 	@Id
 	private String email;
-	private String firstName;
-	private String lastName;	
+	private String pseudo;
+	private String password;
 	private int time;//the time param in minutes
 	private Address address;
 	private ArrayList<String> transport;
 	private Address schoolPlace;
 	private String deviceId;
 	
-	public User(String em, String fn, String ln, int time, Address address,
+	public User(String em, String pseudo, String password, int time, Address address,
 			ArrayList<String> transport, Address schoolPlace, String deviceId){
 		this.email = em;
-		this.firstName = fn;
-		this.lastName = ln;
+		this.pseudo=pseudo;
+		this.password=password;
 		this.time = time;
 		this.address = address;
 		this.transport = transport;
 		this.schoolPlace = schoolPlace;
 		this.deviceId = deviceId;
+	}
+	
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public String getDeviceId() {
@@ -49,22 +65,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public int getTime() {
@@ -101,8 +101,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "User[email=" + email + ", firstName=" +firstName +", lastName="
-        		+ lastName + ", time=" + time + ", address=" +
+        return "User[email=" + email + ", pseudo=" +pseudo +", password="
+        		+ password + ", time=" + time + ", address=" +
         		address.toString() + ", transports= " + transport.toString() +
         		", schoolPlace=" + schoolPlace.toString() +"]";
     }
