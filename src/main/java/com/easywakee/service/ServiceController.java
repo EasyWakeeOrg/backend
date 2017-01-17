@@ -1,6 +1,7 @@
 package com.easywakee.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -133,7 +134,7 @@ public class ServiceController {
 							Integer.parseInt(postalCodeS), cityS));
 				}
 				repo.save(update);
-				return "redirect:/home";
+				return "redirect:home";
 			}
 		}catch(Exception e){
 			return "repository not found";
@@ -149,7 +150,7 @@ public class ServiceController {
 				return "user unexistant";
 			}
 			else{
-				repo.deleteUserByEmail(em);
+				repo.deleteByEmail(em);
 				return "userDeleted";
 			}
 		}catch(Exception e){
@@ -159,9 +160,9 @@ public class ServiceController {
 	}
 
 	//Function giving the time of the first event of the day on user's agenda
-	public Time firstEvent(User u){
+	public Date firstEvent(User u){
 		//Google API
-		return new Time();
+		return new Date();
 	}
 	
 	//Computes the route of the user from home to school. Return the time needed
@@ -174,8 +175,8 @@ public class ServiceController {
 	//Send the alarm time to the alarm clock device
 	public void setAlarmTime(User u){
 		//Computes the alarm time
-		Time alarmTime = firstEvent(u);
-		alarmTime.substract(computeRoute(u) + u.getTime()); 
+		Date alarmTime = firstEvent(u);
+		alarmTime.substract(computeRoute(u) + u.getTime());
 		
 		//Write code to send the info to the device
 		//Other possibility: write the info somewhere and the device

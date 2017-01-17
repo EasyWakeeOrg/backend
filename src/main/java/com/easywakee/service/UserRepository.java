@@ -11,5 +11,5 @@ import com.easywakee.entities.User;
 @RepositoryRestResource(collectionResourceRel="users", path="users")
 public interface UserRepository extends MongoRepository<User, String> {
     public User findByEmail(@Param("id") String email);
-    public long deleteUserByEmail(@Param("id") String email);
+    public List<User> deleteByEmail(@Param("id") String email);
 }
