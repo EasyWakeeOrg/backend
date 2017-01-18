@@ -184,10 +184,15 @@ public class ServiceController {
 	}
 	
 	
-	
 	@RequestMapping(value="/home")
 	@RestResource(path="/home")
 	public String toHome(){
 		return"homepage";
+	}
+	
+	@RequestMapping(value="/form")
+	@RestResource(path="/form")
+	public String toForm(){
+		return"form";
 	}
 }
