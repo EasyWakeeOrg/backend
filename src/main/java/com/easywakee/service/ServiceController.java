@@ -1,6 +1,7 @@
 package com.easywakee.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.easywakee.entities.*;
 
@@ -24,23 +26,23 @@ public class ServiceController {
 	private UserRepository repo;
 	
 	//User handling
-	@RequestMapping(value="/signUp", method = RequestMethod.POST)
+	@RequestMapping(value="/signUp", method = RequestMethod.GET)
 	@RestResource(path="/signUp")
 
-	public String signUp(@RequestParam(value="em",defaultValue="M") String em,
-				@RequestParam(value="ps",defaultValue="M") String pseudo,
-				@RequestParam(value="pa",defaultValue="M") String password,
-				@RequestParam(value="time",defaultValue="M") String time,
-				@RequestParam(value="nb",defaultValue="M") String nb, //User's address
-				@RequestParam(value="str",defaultValue="M") String street,
-				@RequestParam(value="pc",defaultValue="M") String postalCode,
-				@RequestParam(value="city",defaultValue="M") String city,
-				@RequestParam(value="tr",defaultValue="") String transport,
-				@RequestParam(value="nbs",defaultValue="M") String nbS, //fields for school address
-				@RequestParam(value="strs",defaultValue="M") String streetS,
-				@RequestParam(value="pcs",defaultValue="M") String postalCodeS,
-				@RequestParam(value="citys",defaultValue="M") String cityS,
-				@RequestParam(value="device",defaultValue="M") String device){
+	public ModelAndView signUp(@RequestParam(value="ps",defaultValue="M") String pseudo,
+			@RequestParam(value="pa",defaultValue="M") String password,
+			@RequestParam(value="em",defaultValue="M") String em,
+			@RequestParam(value="time",defaultValue="M") String time,
+			@RequestParam(value="nb",defaultValue="M") String nb, //User's address
+			@RequestParam(value="str",defaultValue="M") String street,
+			@RequestParam(value="pc",defaultValue="M") String postalCode,
+			@RequestParam(value="city",defaultValue="M") String city,
+			@RequestParam(value="tr",defaultValue="") String transport,
+			@RequestParam(value="nbs",defaultValue="M") String nbS, //fields for school address
+			@RequestParam(value="strs",defaultValue="M") String streetS,
+			@RequestParam(value="pcs",defaultValue="M") String postalCodeS,
+			@RequestParam(value="citys",defaultValue="M") String cityS,
+			@RequestParam(value="device",defaultValue="M") String device){
 		try{
 			if(repo.findByEmail(em)==null){//insert the new user in the db
 				//Parse the address of the user
@@ -73,21 +75,23 @@ public class ServiceController {
 				Address schoolAdd = new Address(Integer.parseInt(nbS),streetS,pcS,cityS);
 				
 				//Creer la liste des transports quand on saura comment elle est pass�e
-				ArrayList<String> transports = new ArrayList<String>();
-				repo.save(new User(em,pseudo,password,Integer.parseInt(time),add,
-						transports,schoolAdd,device));
-				return "user created";
+				ArrayList<String> transports = new ArrayList<String>(Arrays.asList(transport.split(" ")));
+				
+				User user = new User(em,pseudo,password,Integer.parseInt(time),add,
+						transports,schoolAdd,device);
+				repo.save(user);
+				return new ModelAndView("homepage").addObject(user);
 			}
 			else{
-				return "email already used";
+				return new ModelAndView("email already used");
 			}
 		}catch(Exception e){
 			//renvoyer un code d'erreur HTTP 50x
-			return "repository not found";
+			return new ModelAndView("repository not found");
 		}
 	}
 
-	@RequestMapping(value="/update", method = RequestMethod.PUT)
+	@RequestMapping(value="/update", method = RequestMethod.GET)
 	@RestResource(path="/update")
 	public String updateUser(@RequestParam(value="ps",defaultValue="M") String pseudo,
 			@RequestParam(value="pa",defaultValue="M") String password,
@@ -183,6 +187,11 @@ public class ServiceController {
 		//will send a request to read it
 	}
 	
+//	@RequestMapping(value="/sign")
+//	@RestResource(path="/sign")
+//	public String toSign(){
+//		return"signup";
+//	}
 	
 	@RequestMapping(value="/home")
 	@RestResource(path="/home")
@@ -195,4 +204,9 @@ public class ServiceController {
 	public String toForm(){
 		return"form";
 	}
+	
+	@RequestMapping("/sign")
+    public ModelAndView sign() {
+        return new ModelAndView("signup");
+    }
 }
