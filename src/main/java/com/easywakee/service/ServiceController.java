@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.easywakee.entities.*;
+import com.google.gson.Gson;
 
 
 @Controller
@@ -29,7 +31,7 @@ public class ServiceController {
 	@RequestMapping(value="/signUp", method = RequestMethod.GET)
 	@RestResource(path="/signUp")
 
-	public ModelAndView signUp(@RequestParam(value="ps",defaultValue="M") String pseudo,
+	public String signUp(@RequestParam(value="ps",defaultValue="M") String pseudo,
 			@RequestParam(value="pa",defaultValue="M") String password,
 			@RequestParam(value="em",defaultValue="M") String em,
 			@RequestParam(value="time",defaultValue="M") String time,
@@ -42,7 +44,8 @@ public class ServiceController {
 			@RequestParam(value="strs",defaultValue="M") String streetS,
 			@RequestParam(value="pcs",defaultValue="M") String postalCodeS,
 			@RequestParam(value="citys",defaultValue="M") String cityS,
-			@RequestParam(value="device",defaultValue="M") String device){
+			@RequestParam(value="device",defaultValue="M") String device,
+			Model model){
 		try{
 			if(repo.findByEmail(em)==null){//insert the new user in the db
 				//Parse the address of the user
@@ -80,14 +83,16 @@ public class ServiceController {
 				User user = new User(em,pseudo,password,Integer.parseInt(time),add,
 						transports,schoolAdd,device);
 				repo.save(user);
-				return new ModelAndView("homepage").addObject(user);
+				Gson gson = new Gson();
+				model.addAttribute("user",gson.toJson(user));
+				return "homepage";
 			}
 			else{
-				return new ModelAndView("email already used");
+				return "already used";
 			}
 		}catch(Exception e){
 			//renvoyer un code d'erreur HTTP 50x
-			return new ModelAndView("repository not found");
+			return "repository not found";
 		}
 	}
 

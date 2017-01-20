@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,9 +50,9 @@
     </nav><!-- #header-nav -->
   </header>
   <div class="background">
-    <form action="/signUp" method="get">
+    <form action="/update" method="get">
       <fieldset class="settingsChange">
-        <legend>Please enter your settings to create an account</legend>
+        <legend>Change the settings you want</legend>
         <p><label for="Pseudo">Pseudo</label><input id="ps" type="text" name="ps" value=""/></p>
         <p><label for="Password">Password</label><input id="pa" type="text" name="pa"/></p>
         <p><label for="Email">Email</label><input id="em" type="text" name="em"/></p>
@@ -69,7 +70,7 @@
           <label id="CP"></label><input id="pcs" type="text" name="pcs" rows="1" placeholder="CP"/>
           <input id="citys" type="text" name="citys" rows="1" placeholder="City"/>
         </p>
-        <input class="bouton" type="submit" name="" value="Sign Up"/>
+        <input class="bouton" type="submit" name="" value="Submit changes"/>
       </fieldset>
     </form>
     <footer>

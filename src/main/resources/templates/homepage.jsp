@@ -52,7 +52,7 @@
   <div class="main">
       <div id="settings">
       <script type="text/javascript">
-      	console.log(${user});
+      	console.log("${user}");
       </script>
         <span class="title"><br/>Your settings :</span>
         <ul>
